@@ -21,9 +21,11 @@ if [[ "$RELEASE_TAG" == 'LATEST' ]]; then
 fi
 
 # Validate token.
-curl -o /dev/null -sH "$AUTH" $GH_REPO || { echo "Error: Invalid repo, token or network issue!";  exit 1; }
+#curl -o /dev/null -sH "$AUTH" $GH_REPO || { echo "Error: Invalid repo, token or network issue!";  exit 1; }
 
 # Read asset tags.
-response=$(curl -sH "$AUTH" $GH_TAGS)
+#response=$(curl -sH "$AUTH" $GH_TAGS)
 
-#LAST_RELEASE_TAG=$(curl https://api.github.com/repos/$TRAVIS_REPO_SLUG/releases/latest 2>/dev/null | jq .name | sed 's/"//g')
+LAST_RELEASE_TAG=$(curl  $GH_TAGS 2>/dev/null | jq .name | sed 's/"//g')
+
+echo "teste: $LAST_RELEASE_TAG"
