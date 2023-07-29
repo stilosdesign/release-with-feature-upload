@@ -1,0 +1,28 @@
+name: 'Release with feature upload'
+author: 'StilosDesign'
+description: 'This action will create your release with feature upload via the GitHub Release API'
+branding:
+  icon: 'play'  
+  color: 'green'
+inputs:
+  token:
+    description: 'Your Github token'
+    required: true 
+  username:
+    description: 'Your username'
+    required: true
+  reposname:
+    description: 'Your reposname'
+    required: false 
+  reposbranch:
+    description: 'Your reposbranch'
+    required: false 
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    GITHUB_TOKEN: ${{ inputs.token }}
+    GITHUB_USERNAME: ${{ inputs.username }}
+    GITHUB_REPO: ${{ inputs.reposname }}
+    GITHUB_BRANCH: ${{ inputs.reposbranch }}
+    RELEASE_TAG: ""
