@@ -16,7 +16,7 @@ TYPE_RELEASE=$GITHUB_TYPE_RELEASE
 RELEASE_TAG=$GITHUB_RELEASE_TAG
 
 # Validate is filled tag name
-if [[ "$RELEASE_TAG" == ""]]; then
+if [[ "$RELEASE_TAG" == " " ]]; then
   # Mounted URL for get last release tag
   GH_TAGS="$GH_REPO/releases/latest" 
 
