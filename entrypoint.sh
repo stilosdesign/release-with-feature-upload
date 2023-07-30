@@ -11,21 +11,13 @@ echo "npm version: $(npm -v)"
 # Define variables.
 GH_API="https://api.github.com"
 GH_REPO="$GH_API/repos/$GITHUB_USERNAME/$GITHUB_REPO"
-GH_TAGS="$GH_REPO/releases/tags/$RELEASE_TAG"
 AUTH="Authorization: token $GITHUB_TOKEN"
-WGET_ARGS="--content-disposition --auth-no-challenge --no-cookie"
-CURL_ARGS="-LJO#"
 
-if [[ "$RELEASE_TAG" == 'LATEST' ]]; then
-  GH_TAGS="$GH_REPO/releases/latest"
-fi
+# Mounted URL for get last release tag
+GH_TAGS="$GH_REPO/releases/latest" 
 
-# Validate token.
-#curl -o /dev/null -sH "$AUTH" $GH_REPO || { echo "Error: Invalid repo, token or network issue!";  exit 1; }
+# Get last release tag
+GET_LAST_RELEASE_TAG=$(curl -sL "${GH_TAGS}" | jq -r ".tag_name")
 
-# Read asset tags.
-#response=$(curl -sH "$AUTH" $GH_TAGS)
+echo GET_LAST_RELEASE_TAG
 
-LAST_RELEASE_TAG=$(curl  $GH_TAGS 2>/dev/null | jq .name | sed 's/"//g')
-
-echo "teste: $LAST_RELEASE_TAG"
