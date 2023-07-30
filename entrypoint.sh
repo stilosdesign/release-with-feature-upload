@@ -27,9 +27,9 @@ if [[ "$RELEASE_TAG" == " " ]]; then
   if [[ "$LAST_RELEASE_TAG" == 'null' ]]; then
     NEXT_RELEASE_TAG="v1.0.0"
   else
-    major=$(awk -F'.' '{print $1}' <<< "$GET_LAST_RELEASE_TAG")
-    minor=$(awk -F'.' '{print $2}' <<< "$GET_LAST_RELEASE_TAG")
-    patch=$(awk -F'.' '{print $3}' <<< "$GET_LAST_RELEASE_TAG")
+    major=$(awk -F'.' '{print $1}' <<< "$LAST_RELEASE_TAG")
+    minor=$(awk -F'.' '{print $2}' <<< "$LAST_RELEASE_TAG")
+    patch=$(awk -F'.' '{print $3}' <<< "$LAST_RELEASE_TAG")
 
     # Generate new tag [major, minor, patch]
     if [[ "$TYPE_RELEASE" == "major" ]]; then
@@ -45,7 +45,7 @@ if [[ "$RELEASE_TAG" == " " ]]; then
     NEXT_RELEASE_TAG+="$major.$minor.$patch"
   fi
 else
-  NEXT_RELEASE_TAG = RELEASE_TAG
+  NEXT_RELEASE_TAG=$RELEASE_TAG
 fi
 
 echo "new tag release: $NEXT_RELEASE_TAG"

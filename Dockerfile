@@ -11,7 +11,7 @@ LABEL "homepage"="https://github.com/stilosdesign/release-with-feature-upload"
 LABEL "maintainer"="Antoniel Bordin <stilosdesign@hotmail.com>"
 
 RUN apt update
-RUN apt install -y git jq
+RUN apt install -y git jq curl
 
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
