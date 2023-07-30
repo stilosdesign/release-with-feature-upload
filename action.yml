@@ -13,10 +13,16 @@ inputs:
     required: true
   reposname:
     description: 'Your reposname'
-    required: false 
+    required: true 
+  typerelease:
+    description: 'Your typerelease'
+    required: true
   reposbranch:
     description: 'Your reposbranch'
     required: false 
+  tagrelease:
+    description: 'Your tagrelease'
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -25,4 +31,5 @@ runs:
     GITHUB_USERNAME: ${{ inputs.username }}
     GITHUB_REPO: ${{ inputs.reposname }}
     GITHUB_BRANCH: ${{ inputs.reposbranch }}
-    RELEASE_TAG: ""
+    GITHUB_TYPE_RELEASE: ${{ inputs.typerelease }}
+    GITHUB_RELEASE_TAG: ${{ inputs.tagrelease }}
