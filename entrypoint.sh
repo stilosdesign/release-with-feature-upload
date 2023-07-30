@@ -9,9 +9,10 @@ echo "node version: $(node -v)"
 echo "npm version: $(npm -v)"
 
 # Define variables locales.
-auth="Authorization: token $GITHUB_TOKEN"
+auth=$GITHUB_TOKEN
 gh_api="https://api.github.com"
 gh_repo="$gh_api/repos/$GITHUB_USERNAME/$GITHUB_REPO"
+gh_releases="$gh_api/repos/$GITHUB_USERNAME/$GITHUB_REPO/releases?access_token=$auth"
 type_release=$GITHUB_TYPE_RELEASE
 release_tag=$GITHUB_RELEASE_TAG
 
@@ -27,9 +28,9 @@ if [[ "$release_tag" == "" ]]; then
   if [[ "$last_release_tag" == 'null' ]]; then
     next_release_tag="v1.0.0"
   else
-    major=$(awk -F'.' '{print $1}' <<< "$LAST_RELEASE_TAG")
-    minor=$(awk -F'.' '{print $2}' <<< "$LAST_RELEASE_TAG")
-    patch=$(awk -F'.' '{print $3}' <<< "$LAST_RELEASE_TAG")
+    major=$(awk -F'.' '{print $1}' <<< "$last_release_tag")
+    minor=$(awk -F'.' '{print $2}' <<< "$last_release_tag")
+    patch=$(awk -F'.' '{print $3}' <<< "$last_release_tag")
 
     # Generate new tag [major, minor, patch]
     if [[ "$type_release" == "major" ]]; then
@@ -48,5 +49,10 @@ else
   next_release_tag=$release_tag
 fi
 
-echo "new tag release: $next_release_tag"
+# Create new release
+data_release="{\"tag_name\":\"$next_release_tag\",\"target_commitish\":\"main\",\"name\":\"$next_release_tag\",\"body\":\"Release of version $next_release_tag\",\"draft\":false,\"prerelease\":false}"
+succ=$(curl -H "Authorization: token $auth" --data $data_release $gh_releases)
+
+echo "test release: $succ"
+# echo "new tag release: $next_release_tag"
 
