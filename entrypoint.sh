@@ -49,10 +49,26 @@ else
   next_release_tag=$release_tag
 fi
 
+# echo "my token: $GITHUB_TOKEN"
 # Create new release
-data_release="{\"tag_name\":\"$next_release_tag\",\"target_commitish\":\"main\",\"name\":\"$next_release_tag\",\"body\":\"Release of version $next_release_tag\",\"draft\":false,\"prerelease\":false}"
-succ=$(curl -H "Authorization: token $auth" --data $data_release $gh_releases)
+data_release=''
+data_release+='{"tag_name":"'
+data_release+=$next_release_tag
+data_release+='","target_commitish":"main"}'
 
-echo "test release: $succ"
+echo "data_release: $data_release"
+
+response=$(curl -H "Authorization: token $GITHUB_TOKEN" --data $data_release $gh_releases)
+response_data=$(echo $response | grep upload_url)
+
+if [[ $? -eq 0 ]]; then
+  echo "Release created"
+  
+else
+  echo "Error creating release!"
+  return
+fi
+
 # echo "new tag release: $next_release_tag"
+
 
