@@ -10,9 +10,11 @@ echo "npm version: $(npm -v)"
 
 # Define variables locales.
 auth=$GITHUB_TOKEN
+id_release=''
 gh_api="https://api.github.com"
 gh_repo="$gh_api/repos/$GITHUB_USERNAME/$GITHUB_REPO"
 gh_releases="$gh_api/repos/$GITHUB_USERNAME/$GITHUB_REPO/releases?access_token=$auth"
+gh_assets="https://uploads.github.com/repos/$GITHUB_USERNAME/$GITHUB_REPO/releases/$id_release/assets"
 type_release=$GITHUB_TYPE_RELEASE
 release_tag=$GITHUB_RELEASE_TAG
 
@@ -49,21 +51,34 @@ else
   next_release_tag=$release_tag
 fi
 
-# echo "my token: $GITHUB_TOKEN"
+echo "Creating asset... "
+
 # Create new release
 data_release=''
 data_release+='{"tag_name":"'
 data_release+=$next_release_tag
 data_release+='","target_commitish":"main"}'
 
-echo "data_release: $data_release"
 
-response=$(curl -H "Authorization: token $GITHUB_TOKEN" --data $data_release $gh_releases)
-response_data=$(echo $response | grep upload_url)
+response_release=$(curl -H "Authorization: token $GITHUB_TOKEN" --data $data_release $gh_releases)
+resp_data=$(echo $response_release | grep upload_url)
+
+echo "resp_data: $resp_data"
 
 if [[ $? -eq 0 ]]; then
   echo "Release created"
+  # Upload asset in release
+  echo "Uploading asset... "  
+  id_release=''
+  filename=''
+  # Construct url
+  gh_assets+="?name=$(basename $filename)"
+
+  echo "gh_assets: $gh_assets"
   
+  # response_assets=$(curl -H "Authorization: token $GITHUB_TOKEN" -H "Content-Type: application/octet-stream" --data-binary @"$filename" $gh_assets)
+  
+  # echo "response_assets: $response_assets"
 else
   echo "Error creating release!"
   return
