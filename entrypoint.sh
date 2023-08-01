@@ -77,7 +77,7 @@ if [[ $? -eq 0 ]]; then
 
   empId=$(node -e \
 "let argv=process.argv; let Obj=argv.slice(1,argv.length).join(''); console.log(JSON.parse(Obj)['upload_url'][0]);" \
-$json_object )
+$resp_data )
 
 echo $empId   
 
