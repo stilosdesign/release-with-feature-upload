@@ -76,7 +76,7 @@ if [[ $? -eq 0 ]]; then
   # upload=$(echo $resp_data | cut -d "\"" -f4 | cut -d "{" -f2)
 
   empId=$(node -e \
-"let argv=process.argv; let Obj=argv.slice(1,argv.length).join(''); console.log(JSON.parse(Obj)['upload_url'][0]);" \
+"let argv=process.argv; let Obj=argv.slice(1,argv.length).join(''); console.log(JSON.parse(Obj)['upload_url']);" \
 $resp_data )
 
 echo $empId   
