@@ -69,13 +69,15 @@ if [[ $? -eq 0 ]]; then
   echo "Release created"
   # Upload asset in release
   echo "Uploading asset... "  
-  id_release=''
-  filename=''
+  # id_release=`echo ${res} | python -c 'import json,sys;print(json.load(sys.stdin)["id"])'`
+  # filename=''
   # Construct url
-  gh_assets+="?name=$(basename $filename)"
+  # gh_assets+="?name=$(basename $filename)"
+  upload=$(echo $resp_data | cut -d "\"" -f4 | cut -d "{" -f1)
 
+  echo "upload: $upload"
   echo "gh_assets: $gh_assets"
-  
+
   # response_assets=$(curl -H "Authorization: token $GITHUB_TOKEN" -H "Content-Type: application/octet-stream" --data-binary @"$filename" $gh_assets)
   
   # echo "response_assets: $response_assets"
