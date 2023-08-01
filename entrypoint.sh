@@ -73,7 +73,8 @@ if [[ $? -eq 0 ]]; then
   # filename=''
   # Construct url
   # gh_assets+="?name=$(basename $filename)"
-  upload=$(echo $resp_data | cut -d "\"" -f4 | cut -d "{" -f2)
+  # upload=$(echo $resp_data | cut -d "\"" -f4 | cut -d "{" -f2)
+  upload=jq -r 'id:' $resp_data
 
   echo "upload: $upload"
   echo "gh_assets: $gh_assets"
